@@ -1,0 +1,4 @@
+{
+  "name": "MSL Workspace",
+  "postCreateCommand": "bash .devcontainer/setup.sh"
+}
