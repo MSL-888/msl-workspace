@@ -296,6 +296,35 @@ function pf(l,r){
   return `<div class="pf"><span>${l}</span><span>${r}</span></div>`;
 }
 
+// ═══════════════════════════════════════════
+// LOGO SVG — L'Étiquette au Quotidien
+// uid : suffix unique pour les gradient IDs
+// ═══════════════════════════════════════════
+function logoSVG(uid='', w=200, h=150){
+  const g=`g${uid}`;
+  return `<svg width="${w}" height="${h}" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#EDD870"/>
+        <stop offset="40%"  stop-color="#C9A84C"/>
+        <stop offset="100%" stop-color="#8B6012"/>
+      </linearGradient>
+    </defs>
+    <!-- 3 fleurs de lys : 2 en haut, 1 au centre-bas -->
+    <text x="135" y="72"  font-size="54" fill="url(#${g})" text-anchor="middle" font-family="Georgia,serif">⚜</text>
+    <text x="265" y="72"  font-size="54" fill="url(#${g})" text-anchor="middle" font-family="Georgia,serif">⚜</text>
+    <text x="200" y="135" font-size="62" fill="url(#${g})" text-anchor="middle" font-family="Georgia,serif">⚜</text>
+    <!-- l'ETIQUETTE -->
+    <text x="200" y="185" font-size="40" fill="url(#${g})" text-anchor="middle"
+          font-family="Georgia,serif" font-style="italic" letter-spacing="1">l'ETIQUETTE</text>
+    <!-- swash underline -->
+    <path d="M50,197 Q200,218 350,197" stroke="#C9A84C" stroke-width="1.8" fill="none"/>
+    <!-- AU QUOTIDIEN -->
+    <text x="200" y="252" font-size="22" fill="#1A3A6B" text-anchor="middle"
+          font-family="Arial,sans-serif" font-weight="bold" letter-spacing="4">AU QUOTIDIEN</text>
+  </svg>`;
+}
+
 // Compute weeks (Mon-Sun) covering a month
 function getWeeks(m){
   const weeks=[];
@@ -325,12 +354,12 @@ function getWeeks(m){
 function genCover(){
   return `<div class="page cover-page" id="cover">
     <div class="cover-inner">
-      <div class="c-logo">CD</div>
+      ${logoSVG('cov', 230, 173)}
       <div class="c-div"></div>
       <div class="c-title">LE CLASSEUR<br>DU DIRIGEANT</div>
       <div class="c-div"></div>
       <div class="c-year">2026</div>
-      <div style="height:10mm;"></div>
+      <div style="height:6mm;"></div>
       <div class="c-tag">Clarté &nbsp;·&nbsp; Priorités &nbsp;·&nbsp; Exécution</div>
     </div>
     <div class="c-rbar"></div>
@@ -349,12 +378,12 @@ function genIdentityIntro(){
       <!-- Identity -->
       <div style="display:flex;gap:10mm;align-items:flex-start;margin-bottom:5mm;">
         <div style="flex:1;">
-          <div style="font-size:9.5pt;font-weight:bold;color:var(--dark);letter-spacing:1px;margin-bottom:4mm;">LE CLASSEUR DU DIRIGEANT <span style="color:var(--accent);">2026</span></div>
+          <div style="margin-bottom:3mm;">${logoSVG('idtxt',110,82)}</div>
           ${fields.map(f=>`<div class="idf"><span class="ifl">${f}</span><div class="ifv"></div></div>`).join('')}
         </div>
-        <div style="text-align:center;min-width:28mm;">
-          <div style="width:22mm;height:22mm;border-radius:50%;border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:16pt;font-weight:bold;color:var(--accent);margin:0 auto 3mm;">CD</div>
-          <div style="font-size:6pt;color:var(--muted);font-family:Arial;letter-spacing:.5px;">Cet outil appartient à</div>
+        <div style="text-align:center;min-width:40mm;">
+          ${logoSVG('id', 130, 97)}
+          <div style="font-size:6pt;color:var(--muted);font-family:Arial;letter-spacing:.5px;margin-top:1mm;">Cet outil appartient à</div>
         </div>
       </div>
 
@@ -412,7 +441,7 @@ function genIdentityIntro(){
         </div>
       </div>
     </div>
-    ${pf('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+    ${pf("L'ÉTIQUETTE AU QUOTIDIEN",'FOCUS 31 JOURS')}
   </div>`;
 }
 
@@ -443,7 +472,7 @@ function genAZ(){
       </table>
     </div>
     <div class="az">${letters.map(l=>`<div class="az-l">${l}</div>`).join('')}</div>
-    ${pf('LE CLASSEUR DU DIRIGEANT — 2026','ANNUAIRE')}
+    ${pf("L'ÉTIQUETTE AU QUOTIDIEN",'ANNUAIRE')}
   </div>`;
 }
 
@@ -464,7 +493,7 @@ function genCyclePrio(m){
         <div class="cc-date"><strong>AU</strong><em></em></div>
       </div>
       <div class="cc-bar"></div>
-      <div class="cc-fdl">FOCUS · DISCIPLINE · RÉSULTATS</div>
+      <div class="cc-fdl">L'ÉTIQUETTE AU QUOTIDIEN &nbsp;·&nbsp; FOCUS · DISCIPLINE · RÉSULTATS</div>
     </div>
 
     <!-- WHITE BOTTOM: PRIORITÉS -->
@@ -519,7 +548,7 @@ function genCyclePrio(m){
       </div>
     </div>
 
-    ${pf('LE CLASSEUR DU DIRIGEANT — 2026',`CYCLE ${p2(m.n)} — ${m.fr} 2026`)}
+    ${pf("L'ÉTIQUETTE AU QUOTIDIEN",`CYCLE ${p2(m.n)} — ${m.fr} 2026`)}
   </div>`;
 }
 
@@ -561,7 +590,7 @@ function genDayMap(m){
         Une ligne = un engagement de focus. Les nouvelles tâches commencent dans la liste de collecte.
       </div>
     </div>
-    ${pf('LE CLASSEUR DU DIRIGEANT — 2026',`CYCLE ${p2(m.n)} — CARTE`)}
+    ${pf("L'ÉTIQUETTE AU QUOTIDIEN",`CYCLE ${p2(m.n)} — CARTE`)}
   </div>`;
 }
 
@@ -655,7 +684,7 @@ function genWeekPlan(m, week, wn, total){
         </div>
       </div>
     </div>
-    ${pf('LE CLASSEUR DU DIRIGEANT — 2026',`CYCLE ${p2(m.n)} — S${wn}/${total}`)}
+    ${pf("L'ÉTIQUETTE AU QUOTIDIEN",`CYCLE ${p2(m.n)} — S${wn}/${total}`)}
   </div>`;
 }
 
@@ -748,7 +777,7 @@ function genSuivi(m){
       </div>
 
     </div>
-    ${pf('LE CLASSEUR DU DIRIGEANT — 2026',`CYCLE ${p2(m.n)} — SUIVI`)}
+    ${pf("L'ÉTIQUETTE AU QUOTIDIEN",`CYCLE ${p2(m.n)} — SUIVI`)}
   </div>`;
 }
 
@@ -812,7 +841,7 @@ function genReview(m){
         ${lines(2,'lnm')}
       </div>
     </div>
-    ${pf('LE CLASSEUR DU DIRIGEANT — 2026',`CYCLE ${p2(m.n)} — REVUE`)}
+    ${pf("L'ÉTIQUETTE AU QUOTIDIEN",`CYCLE ${p2(m.n)} — REVUE`)}
   </div>`;
 }
 
@@ -826,7 +855,7 @@ function genNotes(m){
       <p class="intro" style="margin-bottom:3mm;">Idées, observations, apprentissages, opportunités, préparations.</p>
       <div class="dotgrid"></div>
     </div>
-    ${pf('LE CLASSEUR DU DIRIGEANT — 2026',`CYCLE ${p2(m.n)} — NOTES`)}
+    ${pf("L'ÉTIQUETTE AU QUOTIDIEN",`CYCLE ${p2(m.n)} — NOTES`)}
   </div>`;
 }
 
