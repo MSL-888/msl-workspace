@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Classeur du Dirigeant 2026</title>
+<style>
+:root {
+  --dark: #1e293b;
+  --darker: #0f172a;
+  --accent: #6366f1;
+  --accent-light: #818cf8;
+  --accent-pale: #e0e7ff;
+  --warm: #a5b4fc;
+  --text-light: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dark: #1e293b;
+  --border: #e2e8f0;
+  --line: #f1f5f9;
+  --surface: #f8fafc;
+  --white: #ffffff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background: #cbd5e1;
+  color: var(--text-dark);
+}
+
+.sans { font-family: 'Arial', 'Helvetica Neue', sans-serif; }
+
+/* ============================================
+   PAGE SETUP
+   ============================================ */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  height: 297mm;
+  background: white;
+  margin: 8mm auto;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+  page-break-inside: avoid;
+}
+
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body { background: white; }
+  .page { margin: 0; box-shadow: none; page-break-after: always; page-break-inside: avoid; }
+  .no-print { display: none !important; }
+  @page { size: A4; margin: 0; }
+}
+
+/* ============================================
+   NAVIGATION BAR (screen only)
+   ============================================ */
+#navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: var(--darker);
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 1000;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+#navbar strong { color: var(--accent-light); font-size: 14px; }
+#navbar a {
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+#navbar a:hover { background: rgba(99,102,241,0.3); color: white; }
+#navbar .sep { color: #334155; }
+#print-btn {
+  margin-left: auto;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: Arial, sans-serif;
+}
+#print-btn:hover { background: var(--accent-light); }
+#planner { padding-top: 56px; }
+
+/* ============================================
+   DARK PAGE (covers)
+   ============================================ */
+.page-dark {
+  background: var(--darker) !important;
+  color: var(--text-light);
+}
+.page-dark-accent {
+  background: var(--dark) !important;
+  color: var(--text-light);
+}
+
+/* ============================================
+   COVER PAGE
+   ============================================ */
+.cover-page {
+  background: var(--darker) !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20mm;
+  position: relative;
+}
+.cover-page::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+}
+.cover-page::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-light), var(--accent));
+}
+.cover-inner {
+  border: 1.5px solid rgba(99,102,241,0.4);
+  border-radius: 4px;
+  padding: 20mm 18mm;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10mm;
+}
+.cover-logo {
+  width: 22mm; height: 22mm;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: Arial, sans-serif;
+  font-size: 18pt;
+  font-weight: bold;
+  color: var(--accent-light);
+  letter-spacing: 1px;
+}
+.cover-title {
+  font-size: 28pt;
+  font-weight: bold;
+  color: var(--text-light);
+  letter-spacing: 2px;
+  line-height: 1.2;
+}
+.cover-year {
+  font-size: 18pt;
+  color: var(--accent-light);
+  letter-spacing: 4px;
+  font-family: Arial, sans-serif;
+  font-weight: 300;
+}
+.cover-divider {
+  width: 20mm;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 1px;
+}
+.cover-tagline {
+  font-size: 8pt;
+  color: var(--text-muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-family: Arial, sans-serif;
+}
+.cover-right-bar {
+  position: absolute;
+  right: 0; top: 15mm; bottom: 15mm;
+  width: 10mm;
+  background: var(--accent);
+  border-radius: 0 0 0 0;
+  opacity: 0.8;
+}
+
+/* ============================================
+   SECTION HEADER
+   ============================================ */
+.section-header {
+  background: var(--dark);
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  font-family: Arial, sans-serif;
+  font-size: 7.5pt;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.section-num {
+  background: var(--accent);
+  color: white;
+  padding: 2px 7px;
+  border-radius: 2px;
+  font-size: 7pt;
+  font-weight: bold;
+  min-width: 20px;
+  text-align: center;
+}
+.section-subtitle {
+  font-size: 6.5pt;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-family: Arial, sans-serif;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   PAGE FOOTER
+   ============================================ */
+.page-footer {
+  position: absolute;
+  bottom: 6mm;
+  left: 12mm; right: 12mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 5.5pt;
+  color: #94a3b8;
+  font-family: Arial, sans-serif;
+  border-top: 0.5px solid #e2e8f0;
+  padding-top: 3px;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   PAGE CONTENT AREA
+   ============================================ */
+.page-content {
+  padding: 8mm 12mm 16mm 12mm;
+}
+.page-intro {
+  font-size: 7.5pt;
+  color: var(--text-muted);
+  font-family: Arial, sans-serif;
+  margin-bottom: 6mm;
+  font-style: italic;
+}
+
+/* ============================================
+   BOXES / CARDS
+   ============================================ */
+.box {
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 5mm;
+  margin-bottom: 4mm;
+}
+.box-header {
+  font-size: 7pt;
+  font-weight: bold;
+  color: var(--dark);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  font-family: Arial, sans-serif;
+  margin-bottom: 3mm;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2mm;
+}
+.box-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px; height: 14px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  font-size: 7pt;
+  font-weight: bold;
+}
+.box-icon-sq {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px; height: 14px;
+  background: var(--dark);
+  color: white;
+  border-radius: 2px;
+  font-size: 7pt;
+  font-weight: bold;
+}
+
+/* ============================================
+   RULED LINES
+   ============================================ */
+.lines { }
+.line {
+  border-bottom: 0.5px solid var(--line);
+  min-height: 7mm;
+  margin-bottom: 0;
+}
+.line-sm { min-height: 5.5mm; }
+.line-md { min-height: 8mm; }
+.line-lg { min-height: 11mm; }
+
+/* ============================================
+   TABLES
+   ============================================ */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 6.5pt;
+}
+.data-table th {
+  background: var(--dark);
+  color: var(--text-light);
+  padding: 3px 5px;
+  text-align: left;
+  font-size: 6pt;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.data-table td {
+  border-bottom: 0.5px solid var(--line);
+  padding: 1.5px 5px;
+  min-height: 6.5mm;
+  height: 6.5mm;
+  vertical-align: bottom;
+}
+.data-table td.center { text-align: center; }
+.data-table tr:nth-child(even) td { background: rgba(241,245,249,0.5); }
+
+/* ============================================
+   CHECKBOXES / CIRCLES
+   ============================================ */
+.cb {
+  display: inline-block;
+  width: 9px; height: 9px;
+  border: 1px solid #94a3b8;
+  border-radius: 1px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px; height: 16px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  font-size: 7pt;
+  font-weight: bold;
+  color: var(--accent);
+  font-family: Arial, sans-serif;
+  flex-shrink: 0;
+}
+.dot {
+  width: 7px; height: 7px;
+  border: 1px solid #94a3b8;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   TWO COLUMN LAYOUT
+   ============================================ */
+.cols {
+  display: flex;
+  gap: 4mm;
+}
+.col { flex: 1; }
+.col-2-3 { flex: 2; }
+.col-1-3 { flex: 1; }
+
+/* ============================================
+   CYCLE COVER PAGE
+   ============================================ */
+.cycle-cover {
+  background: var(--dark) !important;
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  padding: 18mm 15mm;
+  position: relative;
+}
+.cycle-cover-label {
+  font-size: 7.5pt;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-family: Arial, sans-serif;
+  margin-bottom: 2mm;
+}
+.cycle-cover-label::after {
+  content: '';
+  display: block;
+  width: 20mm;
+  height: 2px;
+  background: var(--accent);
+  margin-top: 3mm;
+}
+.cycle-cover-num {
+  font-size: 72pt;
+  font-weight: bold;
+  color: var(--accent-light);
+  line-height: 1;
+  margin: 4mm 0 2mm 0;
+}
+.cycle-cover-month {
+  font-size: 22pt;
+  font-weight: bold;
+  color: var(--text-light);
+  letter-spacing: 2px;
+  margin-bottom: 8mm;
+}
+.cycle-cover-dates {
+  font-size: 9pt;
+  color: var(--text-muted);
+  font-family: Arial, sans-serif;
+  margin-bottom: 12mm;
+  display: flex;
+  flex-direction: column;
+  gap: 3mm;
+}
+.cycle-cover-dates span {
+  display: flex;
+  align-items: center;
+  gap: 6mm;
+}
+.cycle-cover-dates span strong {
+  color: var(--accent-light);
+  font-size: 7pt;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: 20mm;
+}
+.cycle-cover-dates span em {
+  border-bottom: 1px solid rgba(99,102,241,0.4);
+  width: 50mm;
+  display: inline-block;
+  height: 6mm;
+  font-style: normal;
+}
+.cycle-cover-cap {
+  font-size: 7.5pt;
+  color: var(--text-muted);
+  font-family: Arial, sans-serif;
+  margin-bottom: 3mm;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.cycle-cover-caplines {
+  display: flex;
+  flex-direction: column;
+  gap: 3mm;
+}
+.cycle-cover-capline {
+  border-bottom: 1px solid rgba(99,102,241,0.3);
+  height: 7mm;
+}
+.cycle-cover-tag {
+  position: absolute;
+  right: 0;
+  top: 18mm;
+  background: var(--accent);
+  color: white;
+  padding: 4mm 3mm 4mm 4mm;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  font-size: 8pt;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  letter-spacing: 2px;
+  min-height: 40mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cycle-cover-footer {
+  position: absolute;
+  bottom: 8mm;
+  left: 15mm; right: 15mm;
+  font-size: 6pt;
+  color: rgba(148,163,184,0.5);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: Arial, sans-serif;
+}
+
+/* ============================================
+   INTRO PAGE
+   ============================================ */
+.intro-section {
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 4mm 5mm;
+  margin-bottom: 4mm;
+}
+.intro-section-header {
+  font-size: 7.5pt;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  color: var(--dark);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2mm;
+  margin-bottom: 3mm;
+}
+.intro-text {
+  font-size: 8pt;
+  color: #374151;
+  line-height: 1.6;
+}
+.proto-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 4mm;
+  margin-bottom: 3mm;
+}
+.proto-num {
+  width: 16px; height: 16px;
+  min-width: 16px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  font-size: 7.5pt;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+.proto-text {
+  font-size: 8pt;
+  color: #374151;
+  line-height: 1.5;
+}
+.rdv-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 3mm;
+  margin-bottom: 2.5mm;
+}
+.rdv-dot {
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   IDENTITY PAGE
+   ============================================ */
+.id-field {
+  display: flex;
+  align-items: flex-end;
+  gap: 4mm;
+  margin-bottom: 5mm;
+}
+.id-label {
+  font-size: 8pt;
+  color: var(--dark);
+  font-family: Arial, sans-serif;
+  white-space: nowrap;
+  min-width: 28mm;
+}
+.id-line {
+  flex: 1;
+  border-bottom: 1px solid var(--dark);
+  height: 5mm;
+}
+
+/* ============================================
+   PRIORITY BLOCKS (page 04)
+   ============================================ */
+.priority-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 3mm;
+  margin-bottom: 2mm;
+}
+.priority-sq {
+  width: 12px; height: 12px;
+  min-width: 12px;
+  background: var(--dark);
+  border-radius: 2px;
+  margin-top: 2px;
+}
+
+/* ============================================
+   DAILY PLAN (page 05)
+   ============================================ */
+.daily-result-box {
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  min-height: 12mm;
+  padding: 2mm 3mm;
+  margin-bottom: 4mm;
+  background: var(--surface);
+}
+.daily-result-label {
+  font-size: 6.5pt;
+  color: var(--text-muted);
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1.5mm;
+}
+.daily-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3mm;
+  font-family: Arial, sans-serif;
+  font-size: 7pt;
+  color: var(--text-muted);
+}
+.daily-meta span { display: flex; align-items: center; gap: 2mm; }
+.daily-meta strong { color: var(--dark); }
+
+/* Schedule table */
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 6.5pt;
+  margin-bottom: 3mm;
+}
+.schedule-table th {
+  background: var(--dark);
+  color: white;
+  padding: 2.5px 5px;
+  text-align: left;
+  font-size: 6pt;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.schedule-table td {
+  border-bottom: 0.5px solid var(--line);
+  padding: 0 5px;
+  height: 6.5mm;
+  vertical-align: bottom;
+}
+.schedule-table .col-time { width: 14mm; }
+.schedule-table .col-agenda { width: auto; }
+.schedule-table .col-action { width: 35mm; }
+.schedule-table .col-p { width: 7mm; text-align: center; }
+.schedule-table .col-done { width: 9mm; text-align: center; }
+
+/* ============================================
+   WEEKLY REVIEW
+   ============================================ */
+.week-box {
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 3mm 4mm;
+}
+.week-box-header {
+  font-size: 6.5pt;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  color: var(--accent);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2mm;
+  margin-bottom: 2.5mm;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ============================================
+   DOT GRID (notes page)
+   ============================================ */
+.dot-grid {
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background-image: radial-gradient(circle, #d1d5db 0.8px, transparent 0.8px);
+  background-size: 5mm 5mm;
+  background-position: 3mm 3mm;
+  flex: 1;
+  min-height: 180mm;
+}
+
+/* ============================================
+   DASHBOARD SCALES
+   ============================================ */
+.scale-row {
+  display: flex;
+  align-items: center;
+  gap: 3mm;
+  margin-bottom: 2.5mm;
+  font-family: Arial, sans-serif;
+  font-size: 7pt;
+}
+.scale-label { min-width: 40mm; color: var(--dark); }
+.scale-dots { display: flex; gap: 2.5mm; }
+.scale-dot {
+  width: 9px; height: 9px;
+  border: 1px solid #94a3b8;
+  border-radius: 50%;
+}
+
+/* ============================================
+   CONTACT DIRECTORY (A-Z)
+   ============================================ */
+.az-index {
+  position: absolute;
+  right: 3mm;
+  top: 25mm;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5px;
+}
+.az-letter {
+  font-size: 5.5pt;
+  font-family: Arial, sans-serif;
+  color: var(--text-muted);
+  text-align: center;
+  width: 7mm;
+  padding: 1.5px;
+  background: var(--line);
+  border-radius: 1px;
+  line-height: 1;
+}
+
+/* ============================================
+   ACCENT TAGS / BADGES
+   ============================================ */
+.badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 6pt;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+.badge-accent { background: var(--accent-pale); color: var(--accent); }
+.badge-dark { background: var(--dark); color: white; }
+
+/* ============================================
+   PROJECT SHEET
+   ============================================ */
+.project-meta {
+  display: flex;
+  gap: 8mm;
+  margin-bottom: 4mm;
+  font-family: Arial, sans-serif;
+  font-size: 7.5pt;
+}
+.project-meta-field {
+  display: flex;
+  align-items: flex-end;
+  gap: 3mm;
+  flex: 1;
+}
+.project-meta-label {
+  color: var(--text-muted);
+  white-space: nowrap;
+  font-size: 7pt;
+}
+.project-meta-line {
+  flex: 1;
+  border-bottom: 1px solid var(--border);
+  height: 5mm;
+}
+
+/* ============================================
+   INDIGO STRIPE (left of some pages)
+   ============================================ */
+.stripe-left {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3mm;
+  background: var(--accent);
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION BAR (screen only) -->
+<div id="navbar" class="no-print">
+  <strong>Le Classeur du Dirigeant 2026</strong>
+  <span class="sep">|</span>
+  <a href="#cover">Couverture</a>
+  <a href="#intro">Introduction</a>
+  <a href="#annuaire">Annuaire</a>
+  <span id="cycle-links"></span>
+  <button id="print-btn" onclick="window.print()">Imprimer / PDF</button>
+</div>
+
+<div id="planner"></div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const MONTHS = [
+  { num: 1,  name: 'JANVIER',   name_fr: 'Janvier',   days: 31, start: new Date(2026, 0, 1) },
+  { num: 2,  name: 'FÉVRIER',   name_fr: 'Février',   days: 28, start: new Date(2026, 1, 1) },
+  { num: 3,  name: 'MARS',      name_fr: 'Mars',      days: 31, start: new Date(2026, 2, 1) },
+  { num: 4,  name: 'AVRIL',     name_fr: 'Avril',     days: 30, start: new Date(2026, 3, 1) },
+  { num: 5,  name: 'MAI',       name_fr: 'Mai',       days: 31, start: new Date(2026, 4, 1) },
+  { num: 6,  name: 'JUIN',      name_fr: 'Juin',      days: 30, start: new Date(2026, 5, 1) },
+  { num: 7,  name: 'JUILLET',   name_fr: 'Juillet',   days: 31, start: new Date(2026, 6, 1) },
+  { num: 8,  name: 'AOÛT',      name_fr: 'Août',      days: 31, start: new Date(2026, 7, 1) },
+  { num: 9,  name: 'SEPTEMBRE', name_fr: 'Septembre', days: 30, start: new Date(2026, 8, 1) },
+  { num: 10, name: 'OCTOBRE',   name_fr: 'Octobre',   days: 31, start: new Date(2026, 9, 1) },
+  { num: 11, name: 'NOVEMBRE',  name_fr: 'Novembre',  days: 30, start: new Date(2026, 10, 1) },
+  { num: 12, name: 'DÉCEMBRE',  name_fr: 'Décembre',  days: 31, start: new Date(2026, 11, 1) }
+];
+
+const JOURS_FR = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const MOIS_FR  = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+function fmtDate(d) {
+  return `${JOURS_FR[d.getDay()]} ${d.getDate()} ${MOIS_FR[d.getMonth()]} 2026`;
+}
+function fmtShort(d) {
+  const dd = String(d.getDate()).padStart(2,'0');
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  return `${dd}/${mm}/2026`;
+}
+function pad(n) { return String(n).padStart(2,'0'); }
+function lines(n, cls='') {
+  return Array(n).fill(`<div class="line ${cls}"></div>`).join('');
+}
+function cbLines(n) {
+  return Array(n).fill(0).map((_,i) =>
+    `<div class="line" style="display:flex;align-items:flex-end;gap:3mm;padding-bottom:1.5px;">
+      <span class="cb"></span>
+      <div style="flex:1;border-bottom:0.5px solid #f1f5f9;"></div>
+    </div>`
+  ).join('');
+}
+function dotLines(n) {
+  return Array(n).fill(0).map(() =>
+    `<div class="line" style="display:flex;align-items:flex-end;gap:3mm;padding-bottom:1.5px;">
+      <span class="dot"></span>
+      <div style="flex:1;border-bottom:0.5px solid #f1f5f9;"></div>
+    </div>`
+  ).join('');
+}
+function numLines(n) {
+  return Array(n).fill(0).map((_,i) =>
+    `<div class="line" style="display:flex;align-items:flex-end;gap:3mm;padding-bottom:1.5px;">
+      <span style="font-size:7pt;color:#94a3b8;font-family:Arial;min-width:8px;">${i+1}.</span>
+      <div style="flex:1;border-bottom:0.5px solid #f1f5f9;"></div>
+    </div>`
+  ).join('');
+}
+
+function footer(left, right) {
+  return `<div class="page-footer">
+    <span>${left}</span>
+    <span>${right}</span>
+  </div>`;
+}
+
+// ============================================================
+// PAGE 00 — COVER
+// ============================================================
+function genCover() {
+  return `<div class="page cover-page" id="cover">
+    <div class="cover-inner">
+      <div class="cover-logo">CD</div>
+      <div class="cover-divider"></div>
+      <div class="cover-title">LE CLASSEUR<br>DU DIRIGEANT</div>
+      <div class="cover-divider"></div>
+      <div class="cover-year">2026</div>
+      <div style="height:15mm;"></div>
+      <div class="cover-tagline">Clarté &nbsp;·&nbsp; Priorités &nbsp;·&nbsp; Exécution</div>
+    </div>
+    <div class="cover-right-bar"></div>
+  </div>`;
+}
+
+// ============================================================
+// PAGE 01 — PAGE DE GARDE (identité titulaire)
+// ============================================================
+function genIdentity() {
+  const fields = ['Nom et prénom','Société','Fonction','Téléphone','E-mail','Adresse'];
+  return `<div class="page" id="identity">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      PAGE DE GARDE
+    </div>
+    <div class="page-content" style="padding-top:6mm;">
+      <p class="page-intro">Informations essentielles du titulaire</p>
+      <div style="text-align:center;margin:12mm 0 14mm 0;">
+        <div style="font-size:22pt;font-weight:bold;color:var(--dark);letter-spacing:2px;line-height:1.2;">LE CLASSEUR<br>DU DIRIGEANT</div>
+        <div style="width:16mm;height:2px;background:var(--accent);margin:4mm auto;"></div>
+        <div style="font-size:13pt;color:var(--accent);letter-spacing:4px;font-family:Arial;font-weight:300;">2026</div>
+      </div>
+      <div style="max-width:130mm;margin:0 auto;">
+        ${fields.map(f => `<div class="id-field">
+          <span class="id-label">${f}</span>
+          <div class="id-line"></div>
+        </div>`).join('')}
+      </div>
+      <div style="text-align:center;margin-top:14mm;">
+        <div style="width:18mm;height:18mm;border-radius:50%;border:2px solid var(--accent);display:inline-flex;align-items:center;justify-content:center;font-size:14pt;font-weight:bold;color:var(--accent);font-family:Arial;">CD</div>
+        <div style="font-size:7pt;color:var(--text-muted);font-family:Arial;margin-top:3mm;">Cet outil appartient à</div>
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 02 — INTRODUCTION & MODE D'EMPLOI
+// ============================================================
+function genIntro() {
+  return `<div class="page" id="intro">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      INTRODUCTION ET MODE D'EMPLOI
+    </div>
+    <div class="page-content" style="padding-top:5mm;">
+      <p class="page-intro">Le système est conçu pour concentrer l'attention sur les 31 prochains jours.</p>
+
+      <div class="intro-section">
+        <div class="intro-section-header">
+          <div class="box-icon">O</div>
+          LE PRINCIPE
+        </div>
+        <p class="intro-text">Le Classeur du Dirigeant n'est pas un agenda de plus. Il sert à choisir ce qui compte vraiment, à le planifier, puis à le suivre jusqu'au résultat. Chaque cycle de 31 jours commence par trois priorités majeures et se termine par une revue de progression.</p>
+      </div>
+
+      <div class="intro-section">
+        <div class="intro-section-header">
+          <div class="box-icon-sq">#</div>
+          LE PROTOCOLE DE 31 JOURS
+        </div>
+        <div class="proto-step"><div class="proto-num">1</div><div class="proto-text">Définir le cap du cycle : trois priorités, résultats attendus et décisions nécessaires.</div></div>
+        <div class="proto-step"><div class="proto-num">2</div><div class="proto-text">Collecter toutes les tâches dans la Liste de collecte, puis attribuer un jour 01 à 31.</div></div>
+        <div class="proto-step"><div class="proto-num">3</div><div class="proto-text">Chaque matin, choisir les actions décisives, remplir l'heure à votre rythme et exécuter.</div></div>
+        <div class="proto-step"><div class="proto-num">4</div><div class="proto-text">Mettre à jour les communications, délégations, relances et éléments en attente.</div></div>
+        <div class="proto-step"><div class="proto-num">5</div><div class="proto-text">À la fin du cycle, analyser les résultats, ajuster et préparer le cycle suivant.</div></div>
+      </div>
+
+      <div class="intro-section">
+        <div class="intro-section-header">
+          <div class="box-icon">*</div>
+          LES TROIS RENDEZ-VOUS AVEC SOI-MÊME
+        </div>
+        <div class="rdv-item"><div class="rdv-dot"></div><div class="intro-text"><strong>Début de jour</strong> : choisir le résultat principal et les actions prioritaires.</div></div>
+        <div class="rdv-item"><div class="rdv-dot"></div><div class="intro-text"><strong>Pendant la journée</strong> : conserver le cap, noter ce qui apparaît et reporter sans oublier.</div></div>
+        <div class="rdv-item"><div class="rdv-dot"></div><div class="intro-text"><strong>Fin de journée</strong> : fermer la boucle, planifier le lendemain et relancer ce qui dépend des autres.</div></div>
+      </div>
+
+      <div class="intro-section" style="background:var(--accent-pale);border-color:var(--accent);">
+        <div class="intro-section-header" style="border-color:rgba(99,102,241,0.3);color:var(--accent);">
+          <div class="box-icon">!</div>
+          STRUCTURE DES SECTIONS PAR CYCLE
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1mm 6mm;font-size:6.5pt;font-family:Arial;color:var(--dark);">
+          ${[
+            ['03','Carte des 31 jours'],['04','Suivi des priorités'],['05','Plan du jour (×31)'],
+            ['06','Liste de collecte'],['07','Tâches priorisées'],['08','Communication A–Z'],
+            ['09','Suivi des communications'],['10','Conversation importante'],['11','Délégations & suivi'],
+            ['12','En attente'],['13','Réunion & compte rendu'],['14','Fiche projet stratégique'],
+            ['15','Tableau de bord'],['16','Revue hebdomadaire'],['17','Revue de cycle'],
+            ['18','Journal des décisions'],['19','Notes & idées']
+          ].map(([n,t]) => `<div style="padding:1.5px 0;display:flex;gap:3mm;">
+            <span style="background:var(--dark);color:white;padding:1px 4px;border-radius:2px;font-size:5.5pt;min-width:16px;text-align:center;">${n}</span>
+            <span>${t}</span>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 08 — COMMUNICATION A À Z (une fois dans le classeur)
+// ============================================================
+function genContactDir() {
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const rows = 22;
+  return `<div class="page" id="annuaire" style="position:relative;">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      COMMUNICATION A À Z
+    </div>
+    <div class="page-content" style="padding-top:5mm;padding-right:18mm;">
+      <p class="page-intro">Répertoire actif : qui contacter, à propos de quoi et quand relancer.</p>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:3mm;font-family:Arial;font-size:7pt;color:var(--text-muted);">
+        Recherche rapide <div style="border-bottom:1px solid var(--border);width:40mm;margin-left:3mm;"></div>
+      </div>
+      <table class="data-table" style="font-size:6pt;">
+        <thead>
+          <tr>
+            <th style="width:30mm;">Nom / Organisation</th>
+            <th style="width:18mm;">Fonction</th>
+            <th style="width:28mm;">Téléphone / E-mail</th>
+            <th style="width:28mm;">Sujet / Promesse</th>
+            <th style="width:25mm;">Prochaine action</th>
+            <th style="width:12mm;">Relance J01-31</th>
+            <th style="width:8mm;text-align:center;">Suivi</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${Array(rows).fill(0).map(() => `<tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="center"><span class="dot"></span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div class="az-index">
+      ${letters.map(l => `<div class="az-letter">${l}</div>`).join('')}
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// CYCLE COVER
+// ============================================================
+function genCycleCover(m) {
+  const end = new Date(m.start);
+  end.setDate(end.getDate() + m.days - 1);
+  const id = `cycle-${pad(m.num)}`;
+  return `<div class="page cycle-cover" id="${id}">
+    <div class="cycle-cover-label">CYCLE DE 31 JOURS</div>
+    <div class="cycle-cover-num">${pad(m.num)}</div>
+    <div class="cycle-cover-month">${m.name}</div>
+    <div class="cycle-cover-dates">
+      <span><strong>DU</strong><em></em></span>
+      <span><strong>AU</strong><em></em></span>
+    </div>
+    <div class="cycle-cover-cap">Le cap de ce cycle</div>
+    <div class="cycle-cover-caplines">
+      <div class="cycle-cover-capline"></div>
+      <div class="cycle-cover-capline"></div>
+      <div class="cycle-cover-capline"></div>
+    </div>
+    <div class="cycle-cover-tag">FOCUS · DISCIPLINE · RÉSULTATS</div>
+    <div class="cycle-cover-footer">LE CLASSEUR DU DIRIGEANT — 2026 &nbsp;&nbsp;·&nbsp;&nbsp; FOCUS 31 JOURS</div>
+  </div>`;
+}
+
+// ============================================================
+// PAGE 03 — CARTE DES 31 JOURS
+// ============================================================
+function genDayMap(m) {
+  const rows = Array(31).fill(0).map((_,i) => {
+    const date = new Date(m.start);
+    date.setDate(date.getDate() + i);
+    const isValid = i < m.days;
+    const dateStr = isValid ? fmtShort(date) : '';
+    const rowStyle = isValid ? '' : 'opacity:0.25;';
+    return `<tr style="${rowStyle}">
+      <td style="width:8mm;text-align:center;font-weight:bold;color:${isValid?'var(--accent)':'#94a3b8'};font-family:Arial;">${pad(i+1)}</td>
+      <td style="width:22mm;font-size:6pt;color:#94a3b8;">${dateStr}</td>
+      <td></td>
+      <td style="width:40mm;"></td>
+      <td style="width:18mm;"></td>
+    </tr>`;
+  });
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      CARTE DES 31 JOURS
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle n° ${pad(m.num)} &nbsp;—&nbsp; ${m.name_fr} 2026</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+      <p class="page-intro">Vue d'ensemble du cycle : donnez une place à chaque jour avant de le remplir.</p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:8mm;text-align:center;">Jour</th>
+            <th style="width:22mm;">Date</th>
+            <th>Focus / Rendez-vous majeur</th>
+            <th style="width:40mm;">Action P1</th>
+            <th style="width:18mm;">Point de contrôle</th>
+          </tr>
+        </thead>
+        <tbody>${rows.join('')}</tbody>
+      </table>
+      <div style="margin-top:3mm;font-size:6pt;color:var(--text-muted);font-family:Arial;font-style:italic;">
+        Une ligne = un engagement de focus. Les tâches nouvelles commencent dans la Liste de collecte.
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 04 — SUIVI DES PRIORITÉS
+// ============================================================
+function genPriorities(m) {
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      SUIVI DES PRIORITÉS
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle ${pad(m.num)} &nbsp;—&nbsp; ${m.name_fr} 2026</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+      <p class="page-intro">Une page au début de chaque cycle de 31 jours.</p>
+
+      <div class="box">
+        <div class="box-header">
+          <div class="box-icon-sq">1</div>
+          MES 3 PRIORITÉS MAJEURES DU CYCLE
+        </div>
+        ${[1,2,3].map(n => `
+        <div class="priority-item">
+          <div class="priority-sq"></div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:1.5mm;">
+            <div class="line"></div>
+            <div class="line"></div>
+          </div>
+        </div>`).join('')}
+      </div>
+
+      <div class="cols">
+        <div class="col">
+          <div class="box">
+            <div class="box-header"><div class="box-icon">O</div> RÉSULTATS ATTENDUS / INDICATEURS</div>
+            ${lines(5)}
+          </div>
+        </div>
+        <div class="col">
+          <div class="box">
+            <div class="box-header"><div class="box-icon">@</div> CONTACTS CLÉS À ACTIVER</div>
+            ${numLines(5)}
+          </div>
+        </div>
+      </div>
+
+      <div class="cols">
+        <div class="col">
+          <div class="box">
+            <div class="box-header"><div class="box-icon">+</div> ACTIONS CLÉS</div>
+            ${cbLines(6)}
+          </div>
+        </div>
+        <div class="col">
+          <div class="box">
+            <div class="box-header"><div class="box-icon">!</div> DÉCISIONS À PRENDRE</div>
+            ${numLines(4)}
+          </div>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="box-header"><span style="font-size:9pt;font-weight:bold;color:var(--accent);">—</span>&nbsp; NOTES DE CAP ET POINTS DE VIGILANCE</div>
+        ${lines(5)}
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 05 — PLAN DU JOUR
+// ============================================================
+function genDailyPlan(date, dayNum, m) {
+  const scheduleRows = 16;
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      PLAN DU JOUR
+      <span style="margin-left:auto;font-size:6pt;color:var(--text-muted);">
+        ${fmtDate(date)} &nbsp;·&nbsp; Cycle ${pad(m.num)} J${pad(dayNum)}
+      </span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+
+      <div class="daily-meta">
+        <span><strong style="font-size:6pt;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;">Résultat principal du jour</strong></span>
+        <span><strong>Date</strong> ${fmtShort(date)} &nbsp;&nbsp; <strong>Jour</strong> ${pad(dayNum)}</span>
+      </div>
+      <div class="daily-result-box"></div>
+
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th class="col-time">Heure</th>
+            <th class="col-agenda">Agenda / Rendez-vous / Bloc de travail</th>
+            <th class="col-action">Action décisive</th>
+            <th class="col-p">P</th>
+            <th class="col-done">Fait</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${Array(scheduleRows).fill(0).map(() => `<tr>
+            <td></td><td></td><td></td><td></td>
+            <td class="center"><span class="cb"></span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+
+      <div class="cols" style="margin-top:3mm;">
+        <div class="col">
+          <div class="box" style="padding:3mm 4mm;">
+            <div class="box-header"><div class="box-icon">1</div> LES 3 ACTIONS CRITIQUES</div>
+            ${[1,2,3].map(n => `<div class="rdv-item" style="margin-bottom:2.5mm;">
+              <div class="circle" style="width:14px;height:14px;font-size:7pt;">${n}</div>
+              <div style="flex:1;border-bottom:0.5px solid var(--line);min-height:6mm;"></div>
+            </div>`).join('')}
+          </div>
+        </div>
+        <div class="col">
+          <div class="box" style="padding:3mm 4mm;">
+            <div class="box-header"><div class="box-icon">@</div> COMMUNICATIONS À RÉALISER</div>
+            ${dotLines(5)}
+          </div>
+        </div>
+      </div>
+
+      <div class="cols" style="margin-top:3mm;">
+        <div class="col">
+          <div class="box" style="padding:3mm 4mm;">
+            <div class="box-header"><span style="color:var(--accent);font-weight:bold;">→</span> À REPORTER / À PLANIFIER</div>
+            ${cbLines(4)}
+          </div>
+        </div>
+        <div class="col">
+          <div class="box" style="padding:3mm 4mm;">
+            <div class="box-header"><div class="box-icon">*</div> NOTES ET POINTS D'ATTENTION</div>
+            ${lines(4)}
+          </div>
+        </div>
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 06 — LISTE DE COLLECTE
+// ============================================================
+function genCollect(m) {
+  const rows = 17;
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      LISTE DE COLLECTE ET DE PLANIFICATION
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle ${pad(m.num)} — ${m.name_fr}</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+      <p class="page-intro">Capturez tout ici, puis attribuez un jour précis entre 01 et ${m.days} lorsque la tâche doit être planifiée.</p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:8mm;text-align:center;">#</th>
+            <th>Tâche / Idée / Action</th>
+            <th style="width:7mm;text-align:center;">P</th>
+            <th style="width:15mm;text-align:center;">Jour prévu 01–${pad(m.days)}</th>
+            <th style="width:18mm;">Échéance</th>
+            <th style="width:28mm;">Action suivante</th>
+            <th style="width:8mm;text-align:center;">Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${Array(rows).fill(0).map((_,i) => `<tr>
+            <td style="text-align:center;font-size:6.5pt;color:#94a3b8;">${pad(i+1)}</td>
+            <td></td><td></td><td></td><td></td><td></td>
+            <td class="center"><span class="dot"></span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      <div class="box" style="margin-top:3mm;background:var(--surface);">
+        <div class="box-header"><div class="box-icon">?</div> COMMENT L'UTILISER</div>
+        <div style="font-size:6.5pt;color:#374151;font-family:Arial;display:flex;flex-direction:column;gap:2mm;">
+          <div>1. Tout ce qui arrive dans votre esprit commence ici, sans interrompre votre journée.</div>
+          <div>2. Donnez une priorité : <strong>P1</strong> décisif, <strong>P2</strong> important, <strong>P3</strong> à déléguer, reporter ou supprimer.</div>
+          <div>3. Lors de votre revue quotidienne, choisissez le jour 01 à ${m.days} auquel la tâche doit être rattachée.</div>
+          <div>4. Une fois planifiée, elle apparaît dans le Plan du Jour ou dans la Carte des 31 jours.</div>
+        </div>
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 07 — LISTE DES TÂCHES PRIORISÉES
+// ============================================================
+function genTaskList(m) {
+  const rows = 17;
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      LISTE DES TÂCHES PRIORISÉES
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle ${pad(m.num)} — ${m.name_fr}</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+      <p class="page-intro">Une vue de travail pour filtrer le décisif, programmer l'important et sortir le reste de votre agenda.</p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Tâche / Action</th>
+            <th style="width:12mm;text-align:center;">Priorité</th>
+            <th style="width:18mm;">Échéance</th>
+            <th style="width:13mm;text-align:center;">Jour 01–${pad(m.days)}</th>
+            <th style="width:22mm;">Délégué à</th>
+            <th style="width:13mm;text-align:center;">Durée</th>
+            <th style="width:8mm;text-align:center;">Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${Array(rows).fill(0).map(() => `<tr>
+            <td></td>
+            <td class="center"></td>
+            <td></td>
+            <td class="center"></td>
+            <td></td>
+            <td class="center"></td>
+            <td class="center"><span class="dot"></span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      <div class="cols" style="margin-top:3mm;">
+        <div class="col-1-3">
+          <div class="box" style="background:var(--surface);">
+            <div class="box-header"><div class="box-icon">!</div> PRIORITÉS</div>
+            <div style="font-size:7pt;font-family:Arial;display:flex;flex-direction:column;gap:2.5mm;">
+              <div><strong style="color:var(--dark);">P1</strong> &mdash; prioritaire et décisif</div>
+              <div style="color:#64748b;">P2 &mdash; important à programmer</div>
+              <div style="color:#94a3b8;">P3 &mdash; déléguer, reporter ou supprimer</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-2-3">
+          <div class="box">
+            <div class="box-header"><div class="box-icon">1</div> LES 3 ACTIONS QUI CHANGERONT LE CYCLE</div>
+            ${numLines(3)}
+          </div>
+        </div>
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 09 — SUIVI DES COMMUNICATIONS
+// ============================================================
+function genCommTrack(m) {
+  const rows = 20;
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      SUIVI DES COMMUNICATIONS
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle ${pad(m.num)} — ${m.name_fr}</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+      <p class="page-intro">Gardez une trace des engagements, relances et prochaines actions relationnelles.</p>
+      <table class="data-table" style="font-size:6pt;">
+        <thead>
+          <tr>
+            <th style="width:24mm;">Avec qui</th>
+            <th style="width:20mm;">Date / Canal</th>
+            <th style="width:28mm;">Objet / Contexte</th>
+            <th style="width:30mm;">Engagement / Promesse</th>
+            <th style="width:30mm;">Prochaine action</th>
+            <th style="width:13mm;text-align:center;">Relance J01-${pad(m.days)}</th>
+            <th style="width:8mm;text-align:center;">Fait</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${Array(rows).fill(0).map(() => `<tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="center"><span class="cb"></span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      <div class="box" style="margin-top:3mm;">
+        <div class="box-header"><div class="box-icon">@</div> COMMUNICATIONS À NE PAS OUBLIER DANS CE CYCLE</div>
+        ${cbLines(4)}
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 10 — CONVERSATION IMPORTANTE
+// ============================================================
+function genConversation(m, num) {
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">10</span>
+      CONVERSATION IMPORTANTE À MENER
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle ${pad(m.num)} — ${m.name_fr}</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+      <p class="page-intro">Préparez la discussion avant le rendez-vous, puis fermez la boucle par une action précise.</p>
+      <div style="display:flex;gap:8mm;margin-bottom:4mm;font-family:Arial;font-size:7pt;align-items:flex-end;">
+        <div style="flex:2;display:flex;flex-direction:column;gap:1mm;">
+          <span style="color:var(--text-muted);font-size:6.5pt;">Personne / Organisation</span>
+          <div style="border-bottom:1px solid var(--border);height:5mm;"></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:1mm;">
+          <span style="color:var(--text-muted);font-size:6.5pt;">Date idéale</span>
+          <div style="border-bottom:1px solid var(--border);height:5mm;"></div>
+        </div>
+        <div style="flex:0 0 auto;display:flex;flex-direction:column;gap:1mm;min-width:20mm;">
+          <span style="color:var(--text-muted);font-size:6.5pt;">Jour du cycle</span>
+          <div style="border-bottom:1px solid var(--border);height:5mm;"></div>
+        </div>
+      </div>
+      <div class="box"><div class="box-header"><div class="box-icon">O</div> SUJET ET CONTEXTE</div>${lines(3,'line-md')}</div>
+      <div class="box"><div class="box-header"><div class="box-icon">1</div> OBJECTIF DE L'ÉCHANGE</div>${lines(3,'line-md')}</div>
+      <div class="box"><div class="box-header"><div class="box-icon">!</div> MESSAGES CLÉS À TRANSMETTRE</div>${lines(4)}</div>
+      <div class="cols">
+        <div class="col">
+          <div class="box"><div class="box-header"><div class="box-icon">?</div> QUESTIONS À POSER</div>${lines(4)}</div>
+        </div>
+        <div class="col">
+          <div class="box"><div class="box-header"><div class="box-icon">!</div> POINTS SENSIBLES / À ÉVITER</div>${lines(3)}</div>
+        </div>
+      </div>
+      <div class="box"><div class="box-header"><span style="color:var(--accent);font-weight:bold;">→</span> DÉCISION, PROCHAINE ACTION ET RELANCE</div>${lines(4)}</div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 11 — DÉLÉGATIONS ET SUIVI
+// ============================================================
+function genDelegations(m) {
+  const rows = 12;
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">11</span>
+      DÉLÉGATIONS ET SUIVI
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle ${pad(m.num)} — ${m.name_fr}</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+      <p class="page-intro">Une délégation est complète lorsqu'elle porte un résultat attendu, une échéance et un contrôle prévu.</p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:30mm;">Mission / Sujet</th>
+            <th style="width:22mm;">Délégué à</th>
+            <th style="width:18mm;">Date</th>
+            <th>Résultat attendu</th>
+            <th style="width:18mm;">Échéance</th>
+            <th style="width:15mm;">Relance</th>
+            <th style="width:10mm;text-align:center;">Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${Array(rows).fill(0).map(() => `<tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="center"><span class="cb"></span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      <div class="box" style="margin-top:4mm;">
+        <div class="box-header"><div class="box-icon">O</div> POINTS DE CONTRÔLE</div>
+        ${dotLines(5)}
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 12 — EN ATTENTE
+// ============================================================
+function genWaiting(m) {
+  const rows = 13;
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">12</span>
+      EN ATTENTE
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle ${pad(m.num)} — ${m.name_fr}</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+      <p class="page-intro">Ce qui dépend des autres : réponses, validations, documents, paiements, confirmations.</p>
+      <table class="data-table" style="font-size:6pt;">
+        <thead>
+          <tr>
+            <th style="width:25mm;">En attente de</th>
+            <th style="width:30mm;">Sujet</th>
+            <th style="width:18mm;">Demandé le</th>
+            <th style="width:16mm;">Relance 1</th>
+            <th style="width:16mm;">Relance 2</th>
+            <th style="width:18mm;">Échéance</th>
+            <th style="width:7mm;text-align:center;">P</th>
+            <th style="width:8mm;text-align:center;">Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${Array(rows).fill(0).map(() => `<tr>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="center"><span class="dot"></span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      <div class="box" style="margin-top:4mm;border-color:var(--accent);background:var(--accent-pale);">
+        <div class="box-header" style="color:var(--accent);border-color:rgba(99,102,241,.2);"><div class="box-icon">!</div> BLOCAGES À LEVER</div>
+        ${lines(4)}
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 13 — RÉUNION ET COMPTE RENDU
+// ============================================================
+function genMeeting(m) {
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">13</span>
+      RÉUNION ET COMPTE RENDU
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle ${pad(m.num)} — ${m.name_fr}</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+      <p class="page-intro">Un compte rendu utile se termine toujours par des actions attribuées, datées et suivies.</p>
+      <div style="display:flex;gap:6mm;margin-bottom:4mm;font-family:Arial;font-size:7pt;align-items:flex-end;">
+        <div style="flex:1;display:flex;flex-direction:column;gap:1mm;">
+          <span style="color:var(--text-muted);font-size:6pt;">Date</span>
+          <div style="border-bottom:1px solid var(--border);height:5mm;"></div>
+        </div>
+        <div style="flex:2;display:flex;flex-direction:column;gap:1mm;">
+          <span style="color:var(--text-muted);font-size:6pt;">Lieu / Lien</span>
+          <div style="border-bottom:1px solid var(--border);height:5mm;"></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:1mm;">
+          <span style="color:var(--text-muted);font-size:6pt;">Durée</span>
+          <div style="border-bottom:1px solid var(--border);height:5mm;"></div>
+        </div>
+      </div>
+      <div class="box"><div class="box-header"><div class="box-icon">O</div> OBJET ET RÉSULTAT ATTENDU</div>${lines(2,'line-md')}</div>
+      <div class="box"><div class="box-header"><div class="box-icon">@</div> PARTICIPANTS</div>${lines(2)}</div>
+      <div class="box"><div class="box-header"><div class="box-icon">!</div> DÉCISIONS ET POINTS ESSENTIELS</div>${lines(6)}</div>
+      <table class="data-table" style="margin-top:3mm;">
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th style="width:25mm;">Responsable</th>
+            <th style="width:20mm;">Échéance</th>
+            <th style="width:18mm;text-align:center;">Jour 01-${pad(m.days)}</th>
+            <th style="width:10mm;text-align:center;">Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${Array(7).fill(0).map(() => `<tr>
+            <td></td><td></td><td></td><td class="center"></td>
+            <td class="center"><span class="cb"></span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      <div style="display:flex;align-items:flex-end;gap:3mm;margin-top:3mm;font-family:Arial;font-size:7pt;">
+        <span style="color:var(--text-muted);white-space:nowrap;">Prochaine relance</span>
+        <div style="flex:1;border-bottom:1px solid var(--border);"></div>
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 14 — FICHE PROJET STRATÉGIQUE
+// ============================================================
+function genProject(m) {
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">14</span>
+      FICHE PROJET STRATÉGIQUE
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle ${pad(m.num)} — ${m.name_fr}</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+      <p class="page-intro">Utilisez une fiche par projet important afin de garder une vue claire de l'avancement et des prochaines décisions.</p>
+      <div class="project-meta">
+        <div class="project-meta-field">
+          <span class="project-meta-label">Nom du projet</span>
+          <div class="project-meta-line"></div>
+        </div>
+        <div class="project-meta-field" style="flex:0 0 45mm;">
+          <span class="project-meta-label">Responsable</span>
+          <div class="project-meta-line"></div>
+        </div>
+      </div>
+      <div class="box"><div class="box-header"><div class="box-icon">O</div> OBJECTIF FINAL ET RÉSULTAT ATTENDU</div>${lines(3,'line-md')}</div>
+      <div class="cols">
+        <div class="col">
+          <div class="box">
+            <div class="box-header"><div class="box-icon">1</div> ÉTAPES CLÉS</div>
+            ${numLines(5)}
+          </div>
+        </div>
+        <div class="col">
+          <div class="box">
+            <div class="box-header"><div class="box-icon">!</div> RISQUES / OBSTACLES</div>
+            ${lines(5)}
+          </div>
+        </div>
+      </div>
+      <div class="box"><div class="box-header"><div class="box-icon">@</div> RESSOURCES ET PERSONNES À MOBILISER</div>${lines(4)}</div>
+      <div class="box"><div class="box-header"><span style="color:var(--accent);font-weight:bold;">→</span> PROCHAINE ACTION CONCRÈTE</div>${lines(3,'line-md')}</div>
+      <div class="box"><div class="box-header"><div class="box-icon">*</div> NOTES DE PILOTAGE</div>${lines(4)}</div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 15 — TABLEAU DE BORD DU CYCLE
+// ============================================================
+function genDashboard(m) {
+  const kpiRows = 10;
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">15</span>
+      TABLEAU DE BORD DU CYCLE
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle ${pad(m.num)} — ${m.name_fr}</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+      <p class="page-intro">Choisissez peu d'indicateurs, mais suivez ceux qui éclairent vraiment vos décisions pendant 31 jours.</p>
+      <table class="data-table" style="margin-bottom:4mm;">
+        <thead>
+          <tr>
+            <th>Indicateur clé</th>
+            <th style="width:22mm;text-align:center;">Objectif</th>
+            <th style="width:22mm;text-align:center;">Réel</th>
+            <th style="width:18mm;text-align:center;">Écart</th>
+            <th style="width:40mm;">Tendance / Commentaire</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${Array(kpiRows).fill(0).map(() => `<tr>
+            <td></td>
+            <td class="center"></td>
+            <td class="center"></td>
+            <td class="center"></td>
+            <td></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      <div class="cols">
+        <div class="col">
+          <div class="box">
+            <div class="box-header"><div class="box-icon">!</div> SIGNAUX À SURVEILLER</div>
+            ${lines(5)}
+          </div>
+        </div>
+        <div class="col">
+          <div class="box">
+            <div class="box-header"><div class="box-icon">+</div> ÉQUILIBRE PERSONNEL</div>
+            <div style="padding-top:2mm;">
+              ${['Énergie','Santé','Relations','Lecture / apprentissage','Temps de recul'].map(label =>
+                `<div class="scale-row">
+                  <span class="scale-label">${label}</span>
+                  <div class="scale-dots">
+                    ${Array(5).fill('<div class="scale-dot"></div>').join('')}
+                  </div>
+                </div>`
+              ).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 16 — REVUE HEBDOMADAIRE
+// ============================================================
+function genWeeklyReview(m, weekNum) {
+  const wstart = new Date(m.start);
+  wstart.setDate(wstart.getDate() + (weekNum - 1) * 7);
+  const label = `Semaine ${weekNum} — ${m.name_fr} 2026`;
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">16</span>
+      REVUE HEBDOMADAIRE
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle ${pad(m.num)} — S${weekNum}</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+      <p class="page-intro">Une pause courte pour conserver la maîtrise du cycle avant que l'urgence ne choisisse à votre place.</p>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:4mm;font-family:Arial;font-size:7pt;color:var(--text-muted);">
+        Semaine du <div style="border-bottom:1px solid var(--border);width:45mm;margin-left:3mm;"></div>
+      </div>
+
+      <div class="cols" style="margin-bottom:3mm;">
+        <div class="col">
+          <div class="week-box">
+            <div class="week-box-header"><div class="box-icon">O</div>&nbsp; MES 3 VICTOIRES</div>
+            ${lines(4)}
+          </div>
+        </div>
+        <div class="col">
+          <div class="week-box">
+            <div class="week-box-header"><div class="box-icon">!</div>&nbsp; CE QUI N'EST PAS TERMINÉ</div>
+            ${lines(4)}
+          </div>
+        </div>
+      </div>
+
+      <div class="cols" style="margin-bottom:3mm;">
+        <div class="col">
+          <div class="week-box">
+            <div class="week-box-header"><span style="color:var(--accent);">→</span>&nbsp; À DÉLÉGUER</div>
+            ${lines(4)}
+          </div>
+        </div>
+        <div class="col">
+          <div class="week-box">
+            <div class="week-box-header"><div class="box-icon">@</div>&nbsp; PERSONNES À RELANCER</div>
+            ${lines(4)}
+          </div>
+        </div>
+      </div>
+
+      <div class="cols" style="margin-bottom:3mm;">
+        <div class="col">
+          <div class="week-box">
+            <div class="week-box-header"><div class="box-icon">!</div>&nbsp; DÉCISIONS À PRENDRE</div>
+            ${lines(3)}
+          </div>
+        </div>
+        <div class="col">
+          <div class="week-box">
+            <div class="week-box-header"><span style="color:var(--accent);">—</span>&nbsp; CE QUE JE DOIS ARRÊTER</div>
+            ${lines(3)}
+          </div>
+        </div>
+      </div>
+
+      <div class="box" style="border-color:var(--accent);">
+        <div class="box-header" style="color:var(--dark);">
+          <div class="box-icon" style="background:var(--dark);">1</div>
+          MES 3 PRIORITÉS DE LA SEMAINE SUIVANTE
+        </div>
+        ${[1,2,3].map(n => `<div class="rdv-item" style="margin-bottom:3mm;">
+          <div class="circle">${n}</div>
+          <div style="flex:1;border-bottom:0.5px solid var(--line);min-height:7mm;"></div>
+        </div>`).join('')}
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 17 — REVUE DE CYCLE
+// ============================================================
+function genCycleReview(m) {
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">17</span>
+      REVUE DE CYCLE — 31 JOURS
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle ${pad(m.num)} — ${m.name_fr}</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+      <p class="page-intro">Mesurer, comprendre, ajuster : la progression vient de la qualité de vos revues.</p>
+      <div style="display:flex;gap:8mm;margin-bottom:4mm;font-family:Arial;font-size:7pt;align-items:flex-end;">
+        <span style="color:var(--text-muted);white-space:nowrap;">Cycle n°</span>
+        <div style="border-bottom:1px solid var(--border);width:25mm;"></div>
+        <span style="color:var(--text-muted);white-space:nowrap;margin-left:4mm;">Du</span>
+        <div style="border-bottom:1px solid var(--border);width:25mm;"></div>
+        <span style="color:var(--text-muted);white-space:nowrap;margin-left:4mm;">Au</span>
+        <div style="border-bottom:1px solid var(--border);width:25mm;"></div>
+      </div>
+
+      <div class="cols" style="margin-bottom:3mm;">
+        <div class="col">
+          <div class="box"><div class="box-header"><div class="box-icon">O</div> OBJECTIFS ATTEINTS</div>${lines(5)}</div>
+        </div>
+        <div class="col">
+          <div class="box"><div class="box-header"><div class="box-icon">+</div> RÉSULTATS CLÉS</div>${lines(5)}</div>
+        </div>
+      </div>
+
+      <div class="cols" style="margin-bottom:3mm;">
+        <div class="col">
+          <div class="box"><div class="box-header"><div class="box-icon">@</div> COMMUNICATIONS MAJEURES</div>${lines(4)}</div>
+        </div>
+        <div class="col">
+          <div class="box"><div class="box-header"><div class="box-icon">!</div> DÉCISIONS CLÉS</div>${lines(4)}</div>
+        </div>
+      </div>
+
+      <div class="cols" style="margin-bottom:3mm;">
+        <div class="col">
+          <div class="box"><div class="box-header"><div class="box-icon">!</div> CE QUI A BLOQUÉ</div>${lines(4)}</div>
+        </div>
+        <div class="col">
+          <div class="box"><div class="box-header"><span style="color:var(--accent);font-weight:bold;">→</span> AJUSTEMENTS POUR LE PROCHAIN CYCLE</div>${lines(4)}</div>
+        </div>
+      </div>
+
+      <div class="box" style="border-color:var(--accent);">
+        <div class="box-header"><div class="box-icon">1</div> LES 3 PRIORITÉS DU PROCHAIN CYCLE</div>
+        ${numLines(3)}
+      </div>
+
+      <div class="box">
+        <div class="box-header"><div class="box-icon">*</div> LEÇON PRINCIPALE</div>
+        ${lines(3,'line-md')}
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 18 — JOURNAL DES DÉCISIONS
+// ============================================================
+function genDecisionLog(m) {
+  const rows = 11;
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">18</span>
+      JOURNAL DES DÉCISIONS
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle ${pad(m.num)} — ${m.name_fr}</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;">
+      <p class="page-intro">La mémoire des arbitrages protège la cohérence de votre direction et facilite les revues futures.</p>
+      <table class="data-table" style="font-size:6pt;">
+        <thead>
+          <tr>
+            <th style="width:18mm;">Date</th>
+            <th style="width:35mm;">Décision prise</th>
+            <th>Contexte / Options</th>
+            <th style="width:22mm;">Risque accepté</th>
+            <th style="width:28mm;">Personnes concernées</th>
+            <th style="width:18mm;">À réviser le</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${Array(rows).fill(0).map(() => `<tr>
+            <td style="height:8mm;"></td><td></td><td></td><td></td><td></td><td></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      <div class="box" style="margin-top:4mm;">
+        <div class="box-header"><div class="box-icon">!</div> PRINCIPES DE DÉCISION DU CYCLE</div>
+        ${cbLines(4)}
+      </div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// PAGE 19 — NOTES ET IDÉES
+// ============================================================
+function genNotes(m) {
+  return `<div class="page">
+    <div class="section-header">
+      <span class="section-num">19</span>
+      NOTES ET IDÉES
+      <span style="margin-left:auto;font-size:6.5pt;color:var(--text-muted);">Cycle ${pad(m.num)} — ${m.name_fr}</span>
+    </div>
+    <div class="page-content" style="padding-top:4mm;display:flex;flex-direction:column;height:calc(297mm - 20mm);">
+      <p class="page-intro">Espace libre : idées, observations, apprentissages, opportunités et préparations.</p>
+      <div class="dot-grid" style="flex:1;"></div>
+    </div>
+    ${footer('LE CLASSEUR DU DIRIGEANT — 2026','FOCUS 31 JOURS')}
+  </div>`;
+}
+
+// ============================================================
+// GENERATE ALL
+// ============================================================
+function generateAll() {
+  let html = '';
+  const cycleLinks = [];
+
+  // Couverture + Identité + Intro
+  html += genCover();
+  html += genIdentity();
+  html += genIntro();
+
+  // Annuaire A-Z (une fois)
+  html += genContactDir();
+
+  // 12 cycles
+  MONTHS.forEach(m => {
+    cycleLinks.push(`<a href="#cycle-${pad(m.num)}">${m.name_fr}</a>`);
+    const end = new Date(m.start);
+    end.setDate(end.getDate() + m.days - 1);
+
+    // Cycle cover
+    html += genCycleCover(m);
+
+    // Page 04 — Priorités
+    html += genPriorities(m);
+
+    // Page 03 — Carte des 31 jours
+    html += genDayMap(m);
+
+    // Page 05 — Plans du jour (1 par jour)
+    for (let d = 0; d < m.days; d++) {
+      const date = new Date(m.start);
+      date.setDate(date.getDate() + d);
+      html += genDailyPlan(date, d + 1, m);
+    }
+
+    // Page 06 — Collecte
+    html += genCollect(m);
+
+    // Page 07 — Tâches priorisées
+    html += genTaskList(m);
+
+    // Page 09 — Suivi communications
+    html += genCommTrack(m);
+
+    // Page 10 — Conversation importante
+    html += genConversation(m, 1);
+
+    // Page 11 — Délégations
+    html += genDelegations(m);
+
+    // Page 12 — En attente
+    html += genWaiting(m);
+
+    // Page 13 — Réunion & CR
+    html += genMeeting(m);
+
+    // Page 14 — Fiche projet
+    html += genProject(m);
+
+    // Page 15 — Tableau de bord
+    html += genDashboard(m);
+
+    // Page 16 — Revues hebdo (4 semaines)
+    for (let w = 1; w <= 4; w++) {
+      html += genWeeklyReview(m, w);
+    }
+
+    // Page 17 — Revue de cycle
+    html += genCycleReview(m);
+
+    // Page 18 — Journal des décisions
+    html += genDecisionLog(m);
+
+    // Page 19 — Notes
+    html += genNotes(m);
+  });
+
+  document.getElementById('planner').innerHTML = html;
+
+  // Update nav cycle links
+  const linkEl = document.getElementById('cycle-links');
+  if (linkEl) linkEl.innerHTML = cycleLinks.join('');
+}
+
+// Run
+generateAll();
+</script>
+</body>
+</html>
